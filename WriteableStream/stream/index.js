@@ -1,5 +1,12 @@
 const fs = require("fs");
-const { forEach } = require("lodash");
+
+const fileReadCallback = (error, data) => {
+  if (error) {
+    console.log("Gagal membaca berkas");
+    return;
+  }
+  console.log(data);
+};
 
 const readableStream = fs.createReadStream(
   "./Writeablestream/stream/input.txt",
@@ -26,5 +33,9 @@ readableStream.on("readable", () => {
 
 readableStream.on("end", () => {
   writableStream.end();
-  console.log("Done");
+  const output = fs.readFile(
+    "./Writeablestream/stream/output.txt",
+    "UTF-8",
+    fileReadCallback
+  );
 });
